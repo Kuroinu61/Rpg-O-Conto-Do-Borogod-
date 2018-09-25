@@ -1,5 +1,4 @@
-#Eu comecei isso às 20:30 e quando decidi parar eram 21:30, eu tinha que sair. O código está incompleto, não rodem, pq não vai funcionar ( ao menos as últimas partes )
-#Principalmente as funções que eu criei (atk, atkOrc, danoOrc e goto)
+#Eu tentei, mas acabei tendo que sair ;-;
 
 
 import random
