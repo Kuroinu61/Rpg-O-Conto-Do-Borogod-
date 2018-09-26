@@ -2,20 +2,18 @@
 
 
 import random
+import player
 import sys
 import time
 
-playerhp = 10
 orchp = 10
 playeratk = 1
-orcatk = 1
-orclvl = 1
 
 #Funções
 
 def atk(playeratk):
     orchp - 1
-    
+
 def atkOrc(orcatk):
     playerhp - 1
 
@@ -24,21 +22,13 @@ def dano(hp):
         endGame()
     else:
         print("Você agora possúi %i pontos de vida" %hp)
-        
+
 def danoOrc(orchp):
     if(orchp <= 0):
         print("Parabéns, você derrotou o Orc! ")
     else:
         print("O orc agora possúi %i pontos de vida" %orchp)
 
-def endGame():
-    print("Suas escolhas lhe levaram a ruína. Você precisa de mais borogodó")
-    time.sleep()
-    sys.exit()
-
-def goto(line):
-    global lineNumber
-    line = lineNumber
 
 #Lassos
 
@@ -74,6 +64,8 @@ while True:
         print("Esse tipo de classe não existe...")
         dano(10)
 
+
+thisPlayer = player.Player()
 #História e Batalha
 
 print("Você é o " + playerName + " não é? Eu tenho uma missão para você. \n" +
@@ -96,5 +88,3 @@ if(playerRound == 0):
          print("Você ataca o Orc!")
          atk
          print("Agora ele está com %i " %orchp)
-
-
