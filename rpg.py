@@ -63,44 +63,49 @@ while True:
 
 #História e Batalha
 
-print("Você é o " + playerName + ", não é? Eu tenho uma missão para você... \n" +
-          "Perto daqui existe uma floresta infestada de orcs, quero que você vá lá e mate 5 Orcs \n" +
-          "eu posso te dar uma recompensa muito boa por isso. Vá e volte quando terminar")
-time.sleep(1)
-round = 0
-while round < 5:
-    batalha = input("Você avista um orc, o que você irá fazer? \n Fugir \n Batalhar \n")
-    orc = enemy.Enemy("Orc", 10, 5, 10, None)
-    if(batalha.lower() == "fugir"):
+while True:
+    print("Você está saindo de casa para inciiar sua aventura" +
+        "\n Você tem isso em casa" +
+        "\n Espada" +
+        "\n Cajado" +
+        "\n Balde de água" +
+        "\n Ukulele" +
+        "\n Toalha")
 
-        rolar_dado = D(20)
+    op = input("Qual você leva? ")
 
-        if(rolar_dado > 15):
-            print("Você conseguiu fugir desse orc, mas existem vários por aí. Prepare-se para a próxima batalha\n")
-            time.sleep(2)
-        elif(rolar_dado > 8):
-            print("Você conseguiu fugir, mas o Orc lhe acertou pelas costas enquanto você corria\n")
-            thisPlayer.recebe_dano(3)
-            time.sleep(2)
-        else:
-            print("Você cometeu um grande erro ao tentar fugir, o Orc lhe feriu gravemente quando você tentou correr\n")
-            thisPlayer.recebe_dano(5)
-            time.sleep(2)
+    if(op.lower() == "espada" or op.lower() == "cajado" or op.lower() == "balde de água" or op.lower() == "ukulele" or op.lower() == "toalha"):
+        print("Você pegou a " + str(op))
+        item = op.lower
+        break
+    else:
+        print("Esse item não existe animal!")
+        this.Player.recebe_dano(2)
 
-    elif(batalha.lower() == "batalhar"):
-        round += 1
-        while True:
+while True:
+    print("Ao sair de casa você se depara com um enorme anaõ de fogo")
+    act = input("\nO que você deseja fazer?"+
+                "\nUsar item" +
+                "\nFugir")
 
-            print("Orc HP = %i \n" %orchp +
-                "Orc Attack = %i \n" %orcatk +
-                "Orc Level = %i \n" %orclvl)
-
-            playerRound = input("O que você irá fazer?" +
-                                "\n Atacar "+
-                                "\n Defender "+
-                                "\n Poção \n")
-
-            if(playerRound.lower() == "atacar"):
-                     print("Você ataca o Orc!")
-
-                     print("Agora ele está com %i " %orchp)
+    if(act.lower() == "usar item"):
+        if(item == "espada"):
+            print("Você saca sua espada e tenta atacar o enorme anão de fogo"+
+                "\n Você se queima, parabéns")
+            thisPlayer.recebe_dano(100)
+        elif(item == "cajado"):
+            print("O cajado queima até as cinzas")
+            thisPlayer.recebe_dano(100)
+        elif(item == "ukulele"):
+            print("o anão se acalma e vai embora")
+            break
+        elif(item == "balde de água"):
+            print("O fogo do anão apaga e ele morre de frio, parabéns seu monstro")
+            thisPlayer.recebe_exp(10)
+            break
+        elif(item == "toalha"):
+            print("Você tenta enrolar o anão na toalha, você achou que ela ia queimar mas a toalha era de adamantium" +
+                "\nVocê joga o anão longe")
+            thisPlayer.recebe_exp(20)
+            break
+ 
