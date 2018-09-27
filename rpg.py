@@ -1,27 +1,18 @@
-#Eu tentei, mas acabei tendo que sair ;-;
-
-
 import random
 import player
+import enemy
 import sys
 import time
 
-orchp = 10
-playeratk = 1
-
 #Funções
+
+def D(lados):
+    valor = random.randint(0, lados)
+    print("Você rolou um dado de " + str(lados) + " lados e tirou " + str(valor) + "\n")
+    return valor
 
 def atk(playeratk):
     orchp - 1
-
-def atkOrc(orcatk):
-    playerhp - 1
-
-def dano(hp):
-    if(hp <= 0):
-        endGame()
-    else:
-        print("Você agora possúi %i pontos de vida" %hp)
 
 def danoOrc(orchp):
     if(orchp <= 0):
@@ -30,14 +21,14 @@ def danoOrc(orchp):
         print("O orc agora possúi %i pontos de vida" %orchp)
 
 
-#Lassos
+#Laços
 
 while True:
     playerName = input("Qual o seu nome, nobre aventureiro? ")
 
     print("Então seu nome é " + playerName + "???")
 
-    option = input("0 - Trocar de nome \n 1 - Manter o nome")
+    option = input("0 - Trocar de nome \n1 - Manter o nome")
 
     if(option == "1"):
         break
@@ -45,46 +36,71 @@ while True:
 
 while True:
     op = input("E qual sera sua classe? \n" +
-                        "0 - Guerreiro \n" +
-                        "1 - Mago \n" +
-                        "2 - Bardo \n")
-    if(op == "0"):
+                        "Guerreiro \n" +
+                        "Mago \n" +
+                        "Bardo \n")
+    if(op.lower() == "guerreiro"):
+        thisPlayer = player.Player(playerName, op.lower())
         playerName = playerName + ", o Guerreiro"
         print(playerName)
         break
-    elif(op == "1"):
+
+    elif(op.lower() == "mago"):
+        thisPlayer = player.Player(playerName, op.lower())
         playerName = playerName + ", o Mago"
         print(playerName)
         break
-    elif(op == "2"):
+
+    elif(op.lower() == "bardo"):
+        thisPlayer = player.Player(playerName, op.lower())
         playerName = playerName + ", o Tocador de ukulele"
         print(playerName)
         break
+
     else:
         print("Esse tipo de classe não existe...")
         dano(10)
 
-
-thisPlayer = player.Player()
 #História e Batalha
 
-print("Você é o " + playerName + " não é? Eu tenho uma missão para você. \n" +
+print("Você é o " + playerName + ", não é? Eu tenho uma missão para você... \n" +
           "Perto daqui existe uma floresta infestada de orcs, quero que você vá lá e mate 5 Orcs \n" +
           "eu posso te dar uma recompensa muito boa por isso. Vá e volte quando terminar")
+time.sleep(1)
+round = 0
+while round < 5:
+    batalha = input("Você avista um orc, o que você irá fazer? \n Fugir \n Batalhar \n")
+    orc = enemy.Enemy("Orc", 10, 5, 10, None)
+    if(batalha.lower() == "fugir"):
 
+        rolar_dado = D(20)
 
-time(.300)
-batalha = input("Você avista um orc, o que você irá fazer? \n 0 - Fugir \n 1 - Batalhar \n")
-if(batalha == 0):
-    print("O que pensa que está fazendo? Volte para a missão!")
-    goto(64)
-if(batalha == 1):
-    print("Orc HP = %i \n" %orchp +
-        "Orc Attack = %i \n" %orcatk +
-        "Orc Level = %i \n" %orclvl)
+        if(rolar_dado > 15):
+            print("Você conseguiu fugir desse orc, mas existem vários por aí. Prepare-se para a próxima batalha\n")
+            time.sleep(2)
+        elif(rolar_dado > 8):
+            print("Você conseguiu fugir, mas o Orc lhe acertou pelas costas enquanto você corria\n")
+            thisPlayer.recebe_dano(3)
+            time.sleep(2)
+        else:
+            print("Você cometeu um grande erro ao tentar fugir, o Orc lhe feriu gravemente quando você tentou correr\n")
+            thisPlayer.recebe_dano(5)
+            time.sleep(2)
 
-playerRound = input("O que você irá fazer? \n 0 - Atacar \n 1 - Defender \n 2 - Poção \n")
-if(playerRound == 0):
-         print("Você ataca o Orc!")
-         atk
-         print("Agora ele está com %i " %orchp)
+    elif(batalha.lower() == "batalhar"):
+        round += 1
+        while True:
+
+            print("Orc HP = %i \n" %orchp +
+                "Orc Attack = %i \n" %orcatk +
+                "Orc Level = %i \n" %orclvl)
+
+            playerRound = input("O que você irá fazer?" +
+                                "\n Atacar "+
+                                "\n Defender "+
+                                "\n Poção \n")
+
+            if(playerRound.lower() == "atacar"):
+                     print("Você ataca o Orc!")
+
+                     print("Agora ele está com %i " %orchp)

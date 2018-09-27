@@ -1,14 +1,15 @@
+import time
+
 class Player:
 
     level = 1   #nível atual do player
+    maxhp = 0
     hp = 0
     con = 0     #constituição
     str = 0     #força
     agi = 0     #agilidade
     int = 0     #intelecto
     car = 0     #carisma
-    atk = 0     #ataque
-    defesa = 0  #batata
 
     atualxp = 0
     proxlevel = 10
@@ -16,87 +17,91 @@ class Player:
     nome = ""
     classe = ""
 
-    Player(nome, classeEscolhida):
-        if(classeEscolhida.lower() == "guerreiro"):
-            hp = 10
-            str = 7
-            agi = 3
-            int = 1
-            car = 3
-            con = 1
-        elif(classeEscolhida.lower() == "mago"):
-            hp = 7
-            str = 3
-            agi = 4
-            int = 7
-            car = 1
-            con = 1
-        elif(classeEscolhida.lower() == "bardo"):
-            hp = 4
-            str = 2
-            agi = 2
-            int = 5
-            car = 5
-            con = 1
+    def __init__(self, nome, classeEscolhida):
+        if(classeEscolhida == "guerreiro"):
+            self.hp = 5
+            self.str = 7
+            self.agi = 3
+            self.int = 1
+            self.car = 3
+            self.con = 1
+        elif(classeEscolhida == "mago"):
+            self.hp = 5
+            self.str = 3
+            self.agi = 4
+            self.int = 7
+            self.car = 1
+            self.con = 1
+        elif(classeEscolhida == "bardo"):
+            self.hp = 5
+            self.str = 2
+            self.agi = 2
+            self.int = 5
+            self.car = 5
+            self.con = 1
 
-        calcular_ataque()
-        calcular_defesa()
+        self.maxhp = 5
+        self.level = 1
 
         self.classe = classeEscolhida
         self.nome = nome
 
-    def calcular_ataque():
-        if(classe.lower() == "guerreiro"):
-            self.atk = (2*self.str + self.agi + self.int + self.car) / 5
-        elif(classe.lower() == "mago"):
-            self.atk = (2*self.int + self.str + self.car + self.agi) / 5
-        elif(classe.lower() == "bardo"):
-            self.atk = (3*self.car + 2*self.int + self.str + self.agi) / 5
+    def ataque(self):
+        atk = 0
+        if(self.classe.lower() == "guerreiro"):
+            atk = (2*self.str + self.agi + self.int + self.car) / 5
+        elif(self.classe.lower() == "mago"):
+            atk = (2*self.int + self.str + self.car + self.agi) / 5
+        elif(self.classe.lower() == "bardo"):
+            atk = (3*self.car + 2*self.int + self.str + self.agi) / 5
 
-        return self.atk
+        return atk
 
-    def calcular_defesa():
-        defesa = str * con / 10
+    def defesa(self):
+        return self.str * self.con / self.hp
 
-    def calcular_hp():
-        if(con == 1 || level == 1):
-            hp = 0
+
+    def calcular_hp(self):
+        if(self.con == 1 and self.level == 1):
+            self.maxhp = 5
         else:
-            hp = level * con
+            self.maxhp = (self.level * self.con * 0.2) + 5
+        return self.maxhp
 
-    def endGame():
-        print("Suas escolhas lhe levaram a ruína. Você precisa de mais borogodó")
-        time.sleep()
+    def endGame(self):
+        print("\n\n\n\nSuas escolhas lhe levaram a ruína. Você precisa de mais borogodó\n\n\n\n")
+        time.sleep(5)
         sys.exit()
 
     def goto(line):
         global lineNumber
         line = lineNumber
 
-    def recebe_dano(qtd):
-        calcular_defesa()
-        dano -= qtd - defesa
+    def recebe_dano(self, qtd):
+        dano = int(qtd - self.defesa())
 
-        print("Você recebe " + dano + " de dano")
+        print("Você recebe " + str(dano) + " de dano\n")
 
         if(dano != 0):
-            hp -= dano
-            print("Agora você possúi " + str(hp) + "pontos de vida\n")
+            self.hp -= dano
+            print("Agora você possúi " + str(self.hp) + " pontos de vida\n")
 
-        if(hp <= 0):
-            endGame()
+        if(self.hp <= 0):
+            self.endGame()
 
-    def exibir_status():
-        print(nome + ", Nível: " + level + ", status: \n" +
-              "força: " + str(str) + "\n"
-              "constituição: " + str(con) + "\n"
-              "inteligência: " + str(int) + "\n"
-              "agilidade: " + str(agi) + "\n"
-              "carisma:: " + str(car) + "\n"
-              "ataque: " + str(calcular_ataque()) + "\n"
+    def exibir_status(self):
+        print(nome + ", você está no nível: " + level + ", seus status são: " +
+              "\nforça: " + str(self.str) +
+              "\nconstituição: " + str(self.con) +
+              "\ninteligência: " + str(self.int) +
+              "\nagilidade: " + str(self.agi) +
+              "\ncarisma:: " + str(self.car) +
+              "\nataque: " + str(ataque()) +
+              "\nVocê possúi " + str(self.atualxp) + " e precisa de " +
+              str(proxlevel - atualxp) + " para ir para o próximo nívelz\n\n")
 
-    def recebe_exp(xp):
-        atualxp += xp
-        if(atualxp >= proxlevel):
-            level += 1
-        proxlevel += (10*proxlevel)/100
+    def recebe_exp(self, xp):
+        self.atualxp += xp
+        if(self.atualxp >= self.proxlevel):
+            self.level += 1
+        self.proxlevel += self.proxLevel + (10*self.proxlevel)/100
